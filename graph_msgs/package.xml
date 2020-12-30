@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>graph_msgs</name>
+  <version>0.1.0</version>
+  <description>ROS messages for publishing graphs of different data types</description>
+
+  <maintainer email="davetcoleman@gmail.com">Dave Coleman</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">https://github.com/davetcoleman/graph_msgs</url>
+  <url type="butracker">https://github.com/davetcoleman/graph_msgs/issues</url>
+  <url type="repository">https://github.com/davetcoleman/graph_msgs/</url>
+
+  <author email="davetcoleman@gmail.com">Dave Coleman</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+  <export>
+  </export>
+</package>
