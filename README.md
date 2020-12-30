@@ -151,12 +151,9 @@ make build
 Note that the docker building process may take a while depends on your network and machine. After VINS-Mono successfully started, open another terminal and play your bag file, then you should be able to see the result. If you need modify the code, simply run `./run.sh LAUNCH_FILE_NAME` after your changes.
 
 
-## 7. Acknowledgements
-We use [ceres solver](http://ceres-solver.org/) for non-linear optimization and [DBoW2](https://github.com/dorian3d/DBoW2) for loop detection, and a generic [camera model](https://github.com/hengli/camodocal).
 
-## 8. Licence
-The source code is released under [GPLv3](http://www.gnu.org/licenses/) license.
 
-We are still working on improving the code reliability. For any technical issues, please contact Tong QIN <tong.qinATconnect.ust.hk> or Peiliang LI <pliapATconnect.ust.hk>.
-
-For commercial inquiries, please contact Shaojie SHEN <eeshaojieATust.hk>
+## modify
+1. 做一个方盒滤波  几米范围内的
+2. 方盒能够显示出来
+3. 
