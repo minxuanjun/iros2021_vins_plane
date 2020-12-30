@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(rviz_visual_tools)
 
 if(NOT MSVC)
-  add_compile_options(-std=c++17)
+  add_compile_options(-std=c++11)
   # Warnings
   add_definitions(-W -Wall -Wextra
     #-Wcast-qual
