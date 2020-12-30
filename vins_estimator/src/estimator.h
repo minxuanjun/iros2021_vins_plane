@@ -138,5 +138,5 @@ class Estimator
     Quaterniond relo_relative_q;
     double relo_relative_yaw;
 
-    
+
 };
