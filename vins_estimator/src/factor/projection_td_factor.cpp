@@ -99,7 +99,7 @@ bool ProjectionTdFactor::Evaluate(double const *const *parameters, double *resid
 
             Eigen::Matrix<double, 3, 6> jaco_i;
             jaco_i.leftCols<3>() = ric.transpose() * Rj.transpose();
-            jaco_i.rightCols<3>() = ric.transpose() * Rj.transpose() * Ri * -Utility::skewSymmetric(pts_imu_i);
+            jaco_i.rightCols<3>() = ric.transpose() * Rj.transpose() * Ri * -math_utils::skewSymmetric(pts_imu_i);
 
             jacobian_pose_i.leftCols<6>() = reduce * jaco_i;
             jacobian_pose_i.rightCols<1>().setZero();
@@ -111,7 +111,7 @@ bool ProjectionTdFactor::Evaluate(double const *const *parameters, double *resid
 
             Eigen::Matrix<double, 3, 6> jaco_j;
             jaco_j.leftCols<3>() = ric.transpose() * -Rj.transpose();
-            jaco_j.rightCols<3>() = ric.transpose() * Utility::skewSymmetric(pts_imu_j);
+            jaco_j.rightCols<3>() = ric.transpose() * math_utils::skewSymmetric(pts_imu_j);
 
             jacobian_pose_j.leftCols<6>() = reduce * jaco_j;
             jacobian_pose_j.rightCols<1>().setZero();
@@ -122,8 +122,8 @@ bool ProjectionTdFactor::Evaluate(double const *const *parameters, double *resid
             Eigen::Matrix<double, 3, 6> jaco_ex;
             jaco_ex.leftCols<3>() = ric.transpose() * (Rj.transpose() * Ri - Eigen::Matrix3d::Identity());
             Eigen::Matrix3d tmp_r = ric.transpose() * Rj.transpose() * Ri * ric;
-            jaco_ex.rightCols<3>() = -tmp_r * Utility::skewSymmetric(pts_camera_i) + Utility::skewSymmetric(tmp_r * pts_camera_i) +
-                                     Utility::skewSymmetric(ric.transpose() * (Rj.transpose() * (Ri * tic + Pi - Pj) - tic));
+            jaco_ex.rightCols<3>() = -tmp_r * math_utils::skewSymmetric(pts_camera_i) + math_utils::skewSymmetric(tmp_r * pts_camera_i) +
+                math_utils::skewSymmetric(ric.transpose() * (Rj.transpose() * (Ri * tic + Pi - Pj) - tic));
             jacobian_ex_pose.leftCols<6>() = reduce * jaco_ex;
             jacobian_ex_pose.rightCols<1>().setZero();
         }
@@ -225,15 +225,15 @@ void ProjectionTdFactor::check(double **parameters)
         if (a == 0)
             Pi += delta;
         else if (a == 1)
-            Qi = Qi * Utility::deltaQ(delta);
+            Qi = Qi * math_utils::deltaQ(delta);
         else if (a == 2)
             Pj += delta;
         else if (a == 3)
-            Qj = Qj * Utility::deltaQ(delta);
+            Qj = Qj * math_utils::deltaQ(delta);
         else if (a == 4)
             tic += delta;
         else if (a == 5)
-            qic = qic * Utility::deltaQ(delta);
+            qic = qic * math_utils::deltaQ(delta);
         else if (a == 6 && b == 0)
             inv_dep_i += delta.x();
         else if (a == 6 && b == 1)

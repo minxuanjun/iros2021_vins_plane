@@ -473,7 +473,9 @@ bool KeyFrame::findConnection(KeyFrame* old_kf)
 	{
 	    relative_t = PnP_R_old.transpose() * (origin_vio_T - PnP_T_old);
 	    relative_q = PnP_R_old.transpose() * origin_vio_R;
-	    relative_yaw = Utility::normalizeAngle(Utility::R2ypr(origin_vio_R).x() - Utility::R2ypr(PnP_R_old).x());
+	    relative_yaw =
+                math_utils::normalizeAngle(math_utils::R2ypr(origin_vio_R).x() -
+                                           math_utils::R2ypr(PnP_R_old).x());
 	    //printf("PNP relative\n");
 	    //cout << "pnp relative_t " << relative_t.transpose() << endl;
 	    //cout << "pnp relative_yaw " << relative_yaw << endl;

@@ -9,8 +9,7 @@
 #include <cstring>
 #include <eigen3/Eigen/Dense>
 
-class Utility
-{
+class math_utils {
   public:
     template <typename Derived>
     static Eigen::Quaternion<typename Derived::Scalar> deltaQ(const Eigen::MatrixBase<Derived> &theta)
