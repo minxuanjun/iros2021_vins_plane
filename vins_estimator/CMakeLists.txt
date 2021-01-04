@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   graph_msgs
   eigen_stl_containers
   rviz_visual_tools
+  pcl_ros
+  pcl_conversions
   )
 
 find_package(OpenCV REQUIRED)
@@ -23,6 +25,8 @@ find_package(OpenCV REQUIRED)
 # message(WARNING "OpenCV_VERSION: ${OpenCV_VERSION}")
 
 find_package(Ceres REQUIRED)
+find_package(PCL REQUIRED)
+
 
 include_directories(${catkin_INCLUDE_DIRS} ${CERES_INCLUDE_DIRS})
 
@@ -31,6 +35,7 @@ find_package(Eigen3)
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ${PCL_INCLUDE_DIRS}
 )
 
 catkin_package()
@@ -53,8 +58,10 @@ add_executable(vins_estimator
   src/initial/initial_sfm.cpp
   src/initial/initial_ex_rotation.cpp
   )
+  add_executable(plane_extract_test
+  src/plane_extract.cpp
+  )
 
-
-target_link_libraries(vins_estimator ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES}) 
-
+target_link_libraries(vins_estimator ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES} ${PCL_LIBRARY_DIRS}) 
+target_link_libraries(plane_extract_test ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES} ${PCL_LIBRARY_DIRS}) 
 
