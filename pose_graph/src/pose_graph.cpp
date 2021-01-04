@@ -96,8 +96,9 @@ void PoseGraph::addKeyFrame(KeyFrame* cur_kf, bool flag_detect_loop)
             double shift_yaw;
             Matrix3d shift_r;
             Vector3d shift_t; 
-            shift_yaw = Utility::R2ypr(w_R_cur).x() - Utility::R2ypr(vio_R_cur).x();
-            shift_r = Utility::ypr2R(Vector3d(shift_yaw, 0, 0));
+            shift_yaw = math_utils::R2ypr(w_R_cur).x() -
+                        math_utils::R2ypr(vio_R_cur).x();
+            shift_r = math_utils::ypr2R(Vector3d(shift_yaw, 0, 0));
             shift_t = w_P_cur - w_R_cur * vio_R_cur.transpose() * vio_P_cur; 
             // shift vio pose of whole sequence to the world frame
             if (old_kf->sequence != cur_kf->sequence && sequence_loop[cur_kf->sequence] == 0)
@@ -460,7 +461,8 @@ void PoseGraph::optimize4DoF()
                 t_array[i][2] = tmp_t(2);
                 q_array[i] = tmp_q;
 
-                Vector3d euler_angle = Utility::R2ypr(tmp_q.toRotationMatrix());
+                Vector3d euler_angle =
+                    math_utils::R2ypr(tmp_q.toRotationMatrix());
                 euler_array[i][0] = euler_angle.x();
                 euler_array[i][1] = euler_angle.y();
                 euler_array[i][2] = euler_angle.z();
@@ -481,7 +483,8 @@ void PoseGraph::optimize4DoF()
                 {
                   if (i - j >= 0 && sequence_array[i] == sequence_array[i-j])
                   {
-                    Vector3d euler_conncected = Utility::R2ypr(q_array[i-j].toRotationMatrix());
+                    Vector3d euler_conncected =
+                        math_utils::R2ypr(q_array[i-j].toRotationMatrix());
                     Vector3d relative_t(t_array[i][0] - t_array[i-j][0], t_array[i][1] - t_array[i-j][1], t_array[i][2] - t_array[i-j][2]);
                     relative_t = q_array[i-j].inverse() * relative_t;
                     double relative_yaw = euler_array[i][0] - euler_array[i-j][0];
@@ -500,7 +503,7 @@ void PoseGraph::optimize4DoF()
                 {
                     assert((*it)->loop_index >= first_looped_index);
                     int connected_index = getKeyFrame((*it)->loop_index)->local_index;
-                    Vector3d euler_conncected = Utility::R2ypr(q_array[connected_index].toRotationMatrix());
+                    Vector3d euler_conncected = math_utils::R2ypr(q_array[connected_index].toRotationMatrix());
                     Vector3d relative_t;
                     relative_t = (*it)->getLoopRelativeT();
                     double relative_yaw = (*it)->getLoopRelativeYaw();
@@ -536,7 +539,7 @@ void PoseGraph::optimize4DoF()
                 if ((*it)->index < first_looped_index)
                     continue;
                 Quaterniond tmp_q;
-                tmp_q = Utility::ypr2R(Vector3d(euler_array[i][0], euler_array[i][1], euler_array[i][2]));
+                tmp_q = math_utils::ypr2R(Vector3d(euler_array[i][0], euler_array[i][1], euler_array[i][2]));
                 Vector3d tmp_t = Vector3d(t_array[i][0], t_array[i][1], t_array[i][2]);
                 Matrix3d tmp_r = tmp_q.toRotationMatrix();
                 (*it)-> updatePose(tmp_t, tmp_r);
@@ -551,8 +554,9 @@ void PoseGraph::optimize4DoF()
             cur_kf->getPose(cur_t, cur_r);
             cur_kf->getVioPose(vio_t, vio_r);
             m_drift.lock();
-            yaw_drift = Utility::R2ypr(cur_r).x() - Utility::R2ypr(vio_r).x();
-            r_drift = Utility::ypr2R(Vector3d(yaw_drift, 0, 0));
+            yaw_drift =
+                math_utils::R2ypr(cur_r).x() - math_utils::R2ypr(vio_r).x();
+            r_drift = math_utils::ypr2R(Vector3d(yaw_drift, 0, 0));
             t_drift = cur_t - r_drift * vio_t;
             m_drift.unlock();
             //cout << "t_drift " << t_drift.transpose() << endl;
@@ -909,8 +913,9 @@ void PoseGraph::updateKeyFrameLoop(int index, Eigen::Matrix<double, 8, 1 > &_loo
             double shift_yaw;
             Matrix3d shift_r;
             Vector3d shift_t; 
-            shift_yaw = Utility::R2ypr(w_R_cur).x() - Utility::R2ypr(vio_R_cur).x();
-            shift_r = Utility::ypr2R(Vector3d(shift_yaw, 0, 0));
+            shift_yaw = math_utils::R2ypr(w_R_cur).x() -
+                        math_utils::R2ypr(vio_R_cur).x();
+            shift_r = math_utils::ypr2R(Vector3d(shift_yaw, 0, 0));
             shift_t = w_P_cur - w_R_cur * vio_R_cur.transpose() * vio_P_cur; 
 
             m_drift.lock();

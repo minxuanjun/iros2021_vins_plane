@@ -291,7 +291,7 @@ void extrinsic_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
     m_process.unlock();
 }
 
-void process()
+[[noreturn]] void process()
 {
     if (!LOOP_CLOSURE)
         return;
